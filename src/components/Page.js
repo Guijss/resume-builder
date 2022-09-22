@@ -18,7 +18,20 @@ const Page = () => {
     colors: { paper: '#ffffff', text: '#000000', style: '#ffa500' },
     font: ['Roboto', `'Roboto', sans-serif`],
     fontSize: 1,
-    section: {},
+    areas: [
+      ['Name', 1, false], //[area, state, editable]
+      ['Role', 1, false],
+      ['Summary', 1, false],
+      ['Address', 1, true],
+      ['E-mail', 1, false],
+      ['Phone', -1, true],
+      ['Website', -1, true],
+      ['Linkedin', -1, true],
+      ['Github', -1, true],
+      ['Experience', 1, true],
+      ['Education', 1, true],
+      ['Skills', -1, true],
+    ],
   });
 
   return (

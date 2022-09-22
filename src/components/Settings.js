@@ -4,6 +4,7 @@ import ReactToPrint from 'react-to-print';
 import SettingSection from './SettingSection';
 import { ChromePicker } from 'react-color';
 import FontPicker from './FontPicker';
+import Areas from './Areas';
 
 const SettingsContainer = styled.div`
   position: fixed;
@@ -17,18 +18,25 @@ const SettingsContainer = styled.div`
   justify-content: center;
   align-items: center;
   color: white;
+  z-index: 1;
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
 `;
 
 const PrintButton = styled.div`
   position: relative;
   width: 80%;
   height: 5rem;
-  background-color: teal;
   display: flex;
   justify-content: center;
   align-items: center;
-  cursor: pointer;
+  margin-top: 1rem;
   border-radius: 1rem;
+  font-size: 2rem;
+  font-weight: bold;
+  cursor: pointer;
 `;
 
 const Color = styled.div`
@@ -57,7 +65,11 @@ const ColorBall = styled.span`
 const Settings = ({ printRef, settings, setSettings }) => {
   const [isPickerOpen, setIsPickerOpen] = useState(-1);
   const printTrigger = () => {
-    return <PrintButton>Print</PrintButton>;
+    return (
+      <PrintButton style={{ backgroundColor: settings.colors.style }}>
+        Print / Save PDF
+      </PrintButton>
+    );
   };
 
   const handleClick = (loc) => {
@@ -70,7 +82,7 @@ const Settings = ({ printRef, settings, setSettings }) => {
 
   const handleChange = (color) => {
     setSettings((prev) => {
-      const colors = prev.colors;
+      const colors = { ...prev.colors };
       colors[colsStr[isPickerOpen]] = color.hex;
       return { ...prev, colors: colors };
     });
@@ -86,16 +98,18 @@ const Settings = ({ printRef, settings, setSettings }) => {
 
   const popover = {
     position: 'absolute',
-    zIndex: '2',
+    zIndex: '3',
     top: '90%',
     left: '0',
   };
   const cover = {
     position: 'fixed',
     top: '0',
+    zIndex: '2',
     left: '0',
-    right: '0',
-    bottom: '0',
+    width: '100vw',
+    height: '100vh',
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
   };
 
   return (
@@ -114,21 +128,24 @@ const Settings = ({ printRef, settings, setSettings }) => {
           <ColorBall style={{ backgroundColor: settings.colors.style }} />
         </Color>
         {isPickerOpen > -1 ? (
-          <div style={popover}>
+          <>
             <div style={cover} onClick={handleClose} />
-            <ChromePicker color={cols[isPickerOpen]} onChange={handleChange} />
-          </div>
+            <div style={popover}>
+              <ChromePicker
+                color={cols[isPickerOpen]}
+                onChange={handleChange}
+              />
+            </div>
+          </>
         ) : null}
       </SettingSection>
       <SettingSection title="Font">
         <FontPicker settings={settings} setSettings={setSettings} />
       </SettingSection>
-      <SettingSection title="Sections">
-        <PrintButton />
-        <PrintButton />
-        <PrintButton />
-        <PrintButton />
+      <SettingSection title="Areas">
+        <Areas settings={settings} setSettings={setSettings} />
       </SettingSection>
+
       <ReactToPrint content={() => printRef.current} trigger={printTrigger} />
     </SettingsContainer>
   );

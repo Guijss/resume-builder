@@ -15,12 +15,11 @@ const FontDisplay = styled.div`
 
 const FontSelector = styled.div`
   position: absolute;
-  top: 76%;
-  width: 50%;
-  height: 10rem;
+  width: 100%;
+  height: 100%;
   overflow-y: scroll;
   overflow-x: hidden;
-  z-index: 10;
+  z-index: 1;
   /* Firefox */
   & {
     scrollbar-width: none;
@@ -66,7 +65,7 @@ const FontSize = styled.div`
 const FontSizeUnit = styled.div`
   position: relative;
   width: 33%;
-  height: 100%;
+  height: 70%;
   display: flex;
   justify-content: center;
   align-items: flex-end;
@@ -105,6 +104,26 @@ const FontPicker = ({ settings, setSettings }) => {
     });
   };
 
+  const handleClose = () => {
+    setIsSelectorOpen(false);
+  };
+
+  const popover = {
+    position: 'absolute',
+    zIndex: '2',
+    width: '50%',
+    height: '10rem',
+    top: '76%',
+    left: '10%',
+  };
+  const cover = {
+    position: 'fixed',
+    top: '0',
+    left: '0',
+    right: '0',
+    bottom: '0',
+  };
+
   return (
     <>
       <FontDisplay
@@ -114,20 +133,24 @@ const FontPicker = ({ settings, setSettings }) => {
         {settings.font[0]}
       </FontDisplay>
       {isSelectorOpen && (
-        <FontSelector>
-          {fonts.map((e) => (
-            <FontSelectorUnit
-              style={{
-                fontFamily: e[1],
-                backgroundColor:
-                  e[0] === settings.font[0] ? '#575757' : '#151515',
-              }}
-              onClick={() => handleClick(e)}
-            >
-              {e[0]}
-            </FontSelectorUnit>
-          ))}
-        </FontSelector>
+        <div style={popover}>
+          <div style={cover} onClick={handleClose} />
+          <FontSelector>
+            {fonts.map((e, i) => (
+              <FontSelectorUnit
+                key={i}
+                style={{
+                  fontFamily: e[1],
+                  backgroundColor:
+                    e[0] === settings.font[0] ? '#575757' : '#151515',
+                }}
+                onClick={() => handleClick(e)}
+              >
+                {e[0]}
+              </FontSelectorUnit>
+            ))}
+          </FontSelector>
+        </div>
       )}
       <FontSize>
         <FontSizeUnit
