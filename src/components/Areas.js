@@ -23,9 +23,8 @@ const Areas = ({ settings, setSettings }) => {
     <>
       <AreaContainer>
         {settings.areas.map((e, i) => (
-          <Area style={{ opacity: e[2] ? 1 : 0.2 }}>
+          <Area key={i} style={{ opacity: e[2] ? 1 : 0.2 }}>
             <Switch
-              key={i}
               settings={settings}
               setSettings={setSettings}
               index={i}
