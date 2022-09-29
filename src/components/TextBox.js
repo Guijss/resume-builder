@@ -8,8 +8,7 @@ import {
 
 const TextBoxContainer = styled.div`
   position: relative;
-  width: 90%;
-  height: 6rem;
+  width: 100%;
   border-radius: 0.5rem;
   display: inline-block;
 `;
@@ -17,12 +16,10 @@ const TextBoxContainer = styled.div`
 const TextBoxText = styled.div`
   position: relative;
   width: 100%;
-  height: 100%;
   border: 1px solid transparent;
-  font-size: 5rem;
   text-align: left;
   border-radius: 0.5rem;
-  resize: none;
+  cursor: text;
   &:focus {
     outline: none;
     background-color: lightgray;
@@ -30,6 +27,11 @@ const TextBoxText = styled.div`
   :empty:before {
     content: attr(placeholder);
     opacity: 0.5;
+  }
+  white-space: ${(props) => (props.multiLine ? 'normal' : 'nowrap')};
+  overflow: ${(props) => (props.multiLine ? 'visible' : 'hidden')};
+  br {
+    display: ${(props) => (props.multiLine ? 'inline-block' : 'none')};
   }
 `;
 
@@ -53,7 +55,7 @@ const Align = styled.div`
   cursor: pointer;
 `;
 
-const TextBox = ({ color, pHolder }) => {
+const TextBox = ({ styles, placeholder }) => {
   const [isAlignVisible, setIsAlignVisible] = useState(false);
   const [textAlign, setTextAlign] = useState('left');
 
@@ -70,9 +72,14 @@ const TextBox = ({ color, pHolder }) => {
     <TextBoxContainer>
       <TextBoxText
         contentEditable={true}
-        placeholder={pHolder}
+        placeholder={placeholder}
         spellCheck={false}
-        style={{ textAlign: textAlign, color: color }}
+        multiLine={styles.multiLine}
+        style={{
+          textAlign: textAlign,
+          color: styles.color,
+          fontSize: `${styles.size}rem`,
+        }}
         onFocus={() => handleFocus(true)}
         onBlur={() => handleFocus(false)}
       />

@@ -77,7 +77,6 @@ const FontPicker = ({ settings, setSettings }) => {
     ['Arimo', `'Arimo', sans-serif`],
     ['Asap', `'Asap', sans-serif`],
     ['Barlow', `'Barlow', sans-serif`],
-    ['Catamaran', `'Catamaran', sans-serif`],
     ['Hind Madurai', `'Hind Madurai', sans-serif`],
     ['Lato', `'Lato', sans-serif`],
     ['Nunito', `'Nunito', sans-serif`],
@@ -117,7 +116,7 @@ const FontPicker = ({ settings, setSettings }) => {
     position: 'absolute',
     zIndex: '2',
     width: '50%',
-    height: '18.2rem', //14 fonts * 1.3rem each.
+    height: '16.9rem', //13 fonts * 1.3rem each.
     top: '71%',
     left: '5%',
   };
